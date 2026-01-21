@@ -1,33 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- BLOQUEOS DE MODO KIOSCO EXTENDIDOS ---
-
-    // 1. Bloquear menú contextual (clic derecho)
     document.addEventListener('contextmenu', e => e.preventDefault());
-
-    // 2. Bloquear arrastre de imágenes y enlaces
     document.addEventListener('dragstart', e => e.preventDefault());
 
-    // 3. Bloquear pulsación larga que activa "Google Lens" o "Guardar imagen"
     document.addEventListener('touchstart', (e) => {
-        if (e.touches.length > 1) e.preventDefault(); // Bloquea zoom con dos dedos
+        if (e.touches.length > 1) e.preventDefault(); 
     }, { passive: false });
 
-    // 4. Evitar que el sistema operativo intente seleccionar texto al dejar pulsado
     document.addEventListener('selectstart', e => e.preventDefault());
 
-    // --- RESTO DEL CÓDIGO DEL MODAL ---
+    // --- VARIABLES ---
     const modal = document.getElementById('modal-info');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
     const modalImg = document.getElementById('modal-img');
     const closeBtn = document.querySelector('.btn-close');
 
-    const clickableItems = document.querySelectorAll('.item-galeria, .bento-item');
+    // Seleccionamos todos los posibles elementos interactivos
+    const clickableItems = document.querySelectorAll('.item-galeria, .bento-item, .card-personaje');
 
+    // --- FUNCIÓN ABRIR MODAL ---
     const openModal = (item) => {
+        // Aseguramos que estamos leyendo del elemento que tiene los datos
         const nombre = item.getAttribute('data-nombre');
         const info = item.getAttribute('data-info');
         const foto = item.getAttribute('data-foto');
+
+        if (!nombre) return; // Si no hay datos, no hace nada
 
         if (window.navigator.vibrate) window.navigator.vibrate(10);
 
@@ -40,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => modal.classList.add('active'), 10);
     };
 
+    // --- FUNCIÓN CERRAR MODAL ---
     const closeModal = () => {
         modal.classList.remove('active');
         document.body.style.overflow = '';
@@ -49,8 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
+    // --- LISTENERS ---
     clickableItems.forEach(item => {
-        item.addEventListener('click', () => openModal(item));
+        item.addEventListener('click', function(e) {
+            // USAMOS .closest() -> Esto garantiza que aunque pinches en un icono o borde interno, 
+            // el navegador busque el contenedor padre correcto que tiene la información
+            const targetItem = e.target.closest('.item-galeria, .bento-item, .card-personaje');
+            if (targetItem) {
+                openModal(targetItem);
+            }
+        });
     });
 
     if (closeBtn) {
