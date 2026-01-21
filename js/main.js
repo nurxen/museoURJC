@@ -1,64 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Bloquear Click Derecho (Modo Kiosco)
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    // 1. Configuración de Modo Kiosco (Bloqueos)
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    // Evita que el usuario arrastre imágenes fuera de su sitio
+    document.addEventListener('dragstart', e => e.preventDefault());
 
-    // 2. Efecto visual simple en los enlaces
-    const allLinks = document.querySelectorAll('a');
-    allLinks.forEach(link => {
-        link.addEventListener('touchstart', function() {
-            this.style.opacity = "0.7";
-        });
-        link.addEventListener('touchend', function() {
-            this.style.opacity = "1";
-        });
-    });
-
-    // --- LÓGICA DE LA VENTANA MODAL ---
-    
     const modal = document.getElementById('modal-info');
-    const modalImg = document.getElementById('modal-img');
     const modalTitle = document.getElementById('modal-title');
     const modalDesc = document.getElementById('modal-desc');
+    const modalImg = document.getElementById('modal-img');
     const closeBtn = document.querySelector('.btn-close');
-    
-    // AQUI ESTÁ EL CAMBIO: Ahora buscamos .item-galeria Y TAMBIÉN .card-personaje
-    const clickableItems = document.querySelectorAll('.item-galeria, .card-personaje');
 
-    function openModal(nombre, info, foto) {
-        if(!modal) return; // Seguridad
+    // Seleccionamos todos los items (usando ambas clases por seguridad)
+    const clickableItems = document.querySelectorAll('.item-galeria, .bento-item');
+
+    // 2. Función para Abrir Modal
+    const openModal = (item) => {
+        const nombre = item.getAttribute('data-nombre');
+        const info = item.getAttribute('data-info');
+        const foto = item.getAttribute('data-foto');
+
+        // Feedback táctil (vibración corta 10ms)
+        if (window.navigator.vibrate) {
+            window.navigator.vibrate(10);
+        }
+
+        // Rellenar contenido
         modalTitle.textContent = nombre;
-        // Usamos innerHTML para que funcionen las negritas y saltos de linea
-        modalDesc.innerHTML = info; 
+        modalDesc.innerHTML = info;
         modalImg.src = foto;
-        modal.classList.add('active');
-    }
+        
+        // Mostrar modal con animación
+        modal.style.display = 'flex';
+        // Bloquear scroll del fondo
+        document.body.style.overflow = 'hidden';
 
-    function closeModal() {
-        if(!modal) return;
+        setTimeout(() => modal.classList.add('active'), 10);
+    };
+
+    // 3. Función para Cerrar Modal
+    const closeModal = () => {
         modal.classList.remove('active');
-        setTimeout(() => { modalImg.src = ''; }, 300);
-    }
+        // Reactivar scroll del fondo
+        document.body.style.overflow = '';
+        
+        setTimeout(() => { 
+            modal.style.display = 'none';
+            // Limpiar src para que la siguiente carga no muestre la imagen anterior por un segundo
+            modalImg.src = ''; 
+        }, 300);
+    };
 
-    // Asignamos el evento click a todos los elementos encontrados
+    // 4. Listeners de Eventos
     clickableItems.forEach(item => {
-        // Forzamos el cursor mano para asegurar que se ve clickeable
-        item.style.cursor = 'pointer';
-
-        item.addEventListener('click', function() {
-            const nombre = this.getAttribute('data-nombre');
-            const info = this.getAttribute('data-info');
-            const foto = this.getAttribute('data-foto');
-
-            openModal(nombre, info, foto);
-        });
+        item.addEventListener('click', () => openModal(item));
     });
 
-    if(closeBtn) closeBtn.addEventListener('click', closeModal);
-
-    if(modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeModal();
         });
     }
+
+    // Cerrar al tocar fuera del contenido o en el fondo oscuro
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // Soporte para tecla Escape (por si hay teclado conectado o para desarrollo)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 });
