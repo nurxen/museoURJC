@@ -525,29 +525,19 @@ footer {
    9. BLOQUEOS DE INTERACCIÓN TÁCTIL
    ========================================= */
 
-* {
-    /* Desactiva el menú azul de selección de texto */
-    -webkit-user-select: none;
-    user-select: none;
-    
-    /* Desactiva el menú emergente de pulsación larga (iOS/Android) */
-    -webkit-touch-callout: none;
-    
-    /* Desactiva el recuadro que sale al tocar un enlace */
-    -webkit-tap-highlight-color: transparent;
-    
-    /* Evita gestos automáticos del navegador como "deslizar para refrescar" */
-    touch-action: pan-y; 
-}
-
-/* Asegura que las imágenes no se puedan arrastrar ni "sacar" de la web */
 img {
     -webkit-user-drag: none;
-    pointer-events: none; /* Las imágenes no reciben clics, los recibe su padre .item-galeria */
+    pointer-events: auto; 
 }
 
-/* Los elementos que SÍ deben reaccionar al toque */
-.item-galeria, .bento-item, .nav-card, .btn-back, .btn-close, .btn-explore {
+.item-galeria, .bento-item, .nav-card, .card-personaje {
     pointer-events: auto !important;
     cursor: pointer;
+    position: relative; 
+    z-index: 10;
+}
+
+/* Evitamos que cualquier elemento interno de la galería bloquee el clic del padre */
+.item-galeria *, .bento-item * {
+    pointer-events: none;
 }
