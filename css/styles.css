@@ -86,14 +86,21 @@ header.compact-header {
 .main-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh; /* Forzamos a que ocupe exactamente el alto de la pantalla */
     max-width: 1600px; 
     margin: 0 auto;
     background: white;
-    box-shadow: 0 0 60px rgba(0,0,0,0.05);
+    overflow: hidden; /* Evitamos scroll accidental en el home */
 }
 
-main { padding: 30px; flex: 1; }
+/* Reducimos el padding de main para ganar espacio */
+main { 
+    padding: 20px; 
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye banner, mensaje y nav equitativamente */
+}
 
 /* =========================================
    4. HOME PAGE REDISEÑADA (¡NUEVO!)
@@ -103,17 +110,18 @@ main { padding: 30px; flex: 1; }
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 20px; /* Reducido para acercar las opciones */
+    padding: 20px 40px;
 }
 
-/* Hero Section más moderna */
-.hero-section {
+/* Banner estático: Sin sombras pesadas para no parecer botón */
+.hero-banner {
     width: 100%;
-    height: 35vh; /* Más alto */
+    height: 25vh; /* Un poco más bajo para dar aire */
     position: relative;
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.05); /* Un borde fino en lugar de sombra */
 }
 
 .hero-image {
@@ -121,124 +129,180 @@ main { padding: 30px; flex: 1; }
     height: 100%;
     object-fit: cover;
     display: block;
+    filter: grayscale(20%) brightness(0.8);
 }
 
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+    background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+    z-index: 1;
 }
 
 .hero-text {
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%;
-    padding: 40px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    color: white;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem; /* Un poco más grande para impacto */
+    font-weight: 900;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Sombra propia al texto para extra legibilidad */
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
     color: white;
 }
 
 .hero-text h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 900;
     margin-bottom: 5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    letter-spacing: -1px;
 }
 
 .hero-text .subtitle {
-    font-size: 1.2rem;
-    font-weight: 400;
-    opacity: 0.9;
-    margin-bottom: 20px;
-}
-
-.hero-text .instruction {
-    font-size: 0.9rem;
-    background: rgba(255,255,255,0.2);
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    color: var(--bg-color);
+    font-weight: 700;
     display: inline-block;
-    padding: 5px 15px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
+    padding-bottom: 8px;
+    margin-top: 10px;
 }
 
-/* Tarjetas de Navegación (Estilo Inmersivo) */
+/* Mensaje de instrucción */
+.welcome-message {
+    margin: 10px 0;
+}
+
+.instruction-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.instruction-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 25%; width: 50%;
+    height: 3px;
+    background: var(--urjc-red);
+    border-radius: 10px;
+}
+
 .navigation-grid {
     display: flex;
     gap: 30px;
     width: 100%;
-    justify-content: center;
-    height: 35vh; /* Ocupan buen espacio vertical */
+    height: 40vh; /* Espacio amplio para el toque */
+    margin-top: 10px;
 }
 
 .nav-card {
     position: relative;
     flex: 1;
-    border-radius: var(--radius);
+    border-radius: 30px; /* Bordes más suaves */
     overflow: hidden;
     text-decoration: none;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    border: 3px solid transparent;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background: #000; /* Fondo negro para que la imagen resalte */
 }
-
-.nav-card:active { transform: scale(0.97); }
 
 .nav-card-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0.7; /* Imagen un poco oscura para que el texto destaque */
     transition: transform 0.6s ease;
 }
 
-/* Zoom suave en la imagen al pulsar */
-.nav-card:active .nav-card-bg { transform: scale(1.05); }
+/* Efecto de presión táctil */
+.nav-card:active {
+    transform: scale(0.97);
+    border-color: var(--urjc-red);
+}
+
+.nav-card:active .nav-card-bg {
+    transform: scale(1.1);
+    opacity: 0.5;
+}
 
 .nav-card-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%);
-    transition: opacity 0.3s;
+    background: linear-gradient(to top, 
+                rgba(0,0,0,0.9) 0%, 
+                rgba(0,0,0,0.4) 50%, 
+                transparent 100%);
 }
 
 .nav-card-content {
     position: absolute;
     bottom: 0; left: 0;
-    padding: 30px;
+    padding: 40px 30px;
     width: 100%;
+    text-align: center;
     color: white;
+    z-index: 5;
 }
 
 .nav-card-content h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 5px;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     color: white;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .nav-card-content p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     opacity: 0.9;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     font-weight: 400;
+    color: #eee;
 }
 
 .btn-explore {
     display: inline-block;
-    padding: 10px 25px;
+    padding: 14px 40px;
     background-color: var(--urjc-red);
     color: white;
-    font-weight: 700;
+    font-weight: 800;
     border-radius: 50px;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(192, 41, 39, 0.4);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    box-shadow: 0 8px 20px rgba(203, 0, 23, 0.4);
+    transition: background 0.2s;
 }
 
-.nav-card:active .btn-explore { background-color: white; color: var(--urjc-red); }
-
-
+.nav-card:active .btn-explore {
+    background-color: white;
+    color: var(--urjc-red);
+}
 /* =========================================
    5. PÁGINA PERSONAJES (Fichas)
    ========================================= */
@@ -453,6 +517,9 @@ main { padding: 30px; flex: 1; }
    8. FOOTER
    ========================================= */
 footer {
-    text-align: center; padding: 20px; font-size: 0.85rem;
-    color: #999; background-color: #fff; border-top: 1px solid #eee;
+    padding: 10px; /* Reducido de 20px */
+    font-size: 0.75rem;
+    background: white;
+    flex-shrink: 0; /* Evita que el footer desaparezca */
+    text-align: center;
 }
