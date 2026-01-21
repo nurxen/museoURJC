@@ -129,13 +129,13 @@ main {
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(20%) brightness(0.8);
+    filter: grayscale(20%) brightness(0.9);
 }
 
 .hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%),
+    background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%),
                 linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
     z-index: 1;
 }
@@ -152,11 +152,11 @@ main {
 
 .hero-text h1 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 3.5rem; /* Un poco más grande para impacto */
+    font-size: 3.5rem; 
     font-weight: 900;
     margin-bottom: 5px;
     letter-spacing: -1px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Sombra propia al texto para extra legibilidad */
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5); 
 }
 
 .hero-text {
@@ -213,27 +213,27 @@ main {
     display: flex;
     gap: 30px;
     width: 100%;
-    height: 40vh; /* Espacio amplio para el toque */
+    height: 40vh;
     margin-top: 10px;
 }
 
 .nav-card {
     position: relative;
     flex: 1;
-    border-radius: 30px; /* Bordes más suaves */
+    border-radius: 30px; 
     overflow: hidden;
     text-decoration: none;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     border: 3px solid transparent;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    background: #000; /* Fondo negro para que la imagen resalte */
+    background: #000; 
 }
 
 .nav-card-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.7; /* Imagen un poco oscura para que el texto destaque */
+    opacity: 0.7; 
     transition: transform 0.6s ease;
 }
 
@@ -345,9 +345,6 @@ main {
 
 /* =========================================
    6. PÁGINA GALERÍA (Grid)
-   ========================================= */
-/* =========================================
-   REDISEÑO: BENTO GRID INTERACTIVO
    ========================================= */
 .grid-galeria {
     display: grid;
@@ -522,4 +519,35 @@ footer {
     background: white;
     flex-shrink: 0; /* Evita que el footer desaparezca */
     text-align: center;
+}
+
+/* =========================================
+   9. BLOQUEOS DE INTERACCIÓN TÁCTIL
+   ========================================= */
+
+* {
+    /* Desactiva el menú azul de selección de texto */
+    -webkit-user-select: none;
+    user-select: none;
+    
+    /* Desactiva el menú emergente de pulsación larga (iOS/Android) */
+    -webkit-touch-callout: none;
+    
+    /* Desactiva el recuadro que sale al tocar un enlace */
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Evita gestos automáticos del navegador como "deslizar para refrescar" */
+    touch-action: pan-y; 
+}
+
+/* Asegura que las imágenes no se puedan arrastrar ni "sacar" de la web */
+img {
+    -webkit-user-drag: none;
+    pointer-events: none; /* Las imágenes no reciben clics, los recibe su padre .item-galeria */
+}
+
+/* Los elementos que SÍ deben reaccionar al toque */
+.item-galeria, .bento-item, .nav-card, .btn-back, .btn-close, .btn-explore {
+    pointer-events: auto !important;
+    cursor: pointer;
 }
