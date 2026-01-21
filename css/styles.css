@@ -374,8 +374,9 @@ main {
 .item-galeria:nth-child(4n+1) { grid-column: span 2; }
 .item-galeria:nth-child(7n) { grid-row: span 2; }
 
-.item-galeria:active {
-    transform: scale(0.95); /* Feedback visual de pulsación */
+/* BLOQUEO TOTAL DE HIJOS: El toque pasa directamente al padre .item-galeria */
+.item-galeria * {
+    pointer-events: none !important;
 }
 
 .item-galeria img {
