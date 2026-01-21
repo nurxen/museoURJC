@@ -524,20 +524,25 @@ footer {
 /* =========================================
    9. BLOQUEOS DE INTERACCIÓN TÁCTIL
    ========================================= */
+* {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none; /* Bloquea el menú de "guardar imagen" en iOS/Android */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Permitir el scroll solo donde sea necesario (como dentro del modal) */
+.modal-text {
+    touch-action: pan-y; 
+    overflow-y: auto;
+}
+
+.item-galeria, .bento-item, .nav-card, .btn-back, .btn-close {
+    /* IMPORTANTE: Evita que el navegador gestione gestos por defecto en estos botones */
+    touch-action: none; 
+    pointer-events: auto !important;
+}
 
 img {
-    -webkit-user-drag: none;
-    pointer-events: auto; 
-}
-
-.item-galeria, .bento-item, .nav-card, .card-personaje {
-    pointer-events: auto !important;
-    cursor: pointer;
-    position: relative; 
-    z-index: 10;
-}
-
-/* Evitamos que cualquier elemento interno de la galería bloquee el clic del padre */
-.item-galeria *, .bento-item * {
-    pointer-events: none;
+    pointer-events: none; /* Evita que la imagen intercepte el toque antes que el contenedor */
 }
