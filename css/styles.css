@@ -348,24 +348,12 @@ main {
    ========================================= */
 .grid-galeria {
     display: grid;
-    /* Creamos un grid complejo para que no sea aburrido */
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 280px;
     gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
-    touch-action: none;
-    pointer-events: auto !important;
-}
-
-/* IMPORTANTE: Esto evita que el texto o la etiqueta bloqueen el clic del padre */
-.item-galeria img, 
-.item-galeria .info-overlay-label, 
-.item-galeria .info-overlay-label * {
-    pointer-events: none !important; 
-    user-select: none;
-    -webkit-user-drag: none;
 }
 
 .item-galeria {
@@ -375,11 +363,20 @@ main {
     background: #000;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    pointer-events: auto !important;
+    touch-action: none; 
+    cursor: pointer;
+
 }
 
 /* Hacemos que algunos elementos sean más grandes que otros para romper la monotonía */
 .item-galeria:nth-child(4n+1) { grid-column: span 2; }
 .item-galeria:nth-child(7n) { grid-row: span 2; }
+
+.item-galeria:active {
+    transform: scale(0.95); /* Feedback visual de pulsación */
+}
 
 .item-galeria img {
     width: 100%;
@@ -533,27 +530,17 @@ footer {
 }
 
 /* =========================================
-   9. BLOQUEOS DE INTERACCIÓN TÁCTIL
+   9. BLOQUEOS TÁCTILES GLOBALES - REFORZADOS
    ========================================= */
 * {
     -webkit-user-select: none;
     user-select: none;
-    -webkit-touch-callout: none; /* Bloquea el menú de "guardar imagen" en iOS/Android */
+    -webkit-touch-callout: none !important; /* BLOQUEO DE MENÚ GOOGLE/IOS */
     -webkit-tap-highlight-color: transparent;
 }
 
-/* Permitir el scroll solo donde sea necesario (como dentro del modal) */
-.modal-text {
-    touch-action: pan-y; 
-    overflow-y: auto;
-}
-
-.item-galeria, .bento-item, .nav-card, .btn-back, .btn-close {
-    /* IMPORTANTE: Evita que el navegador gestione gestos por defecto en estos botones */
-    touch-action: none; 
+/* Solo permitimos eventos en los contenedores principales */
+.item-galeria, .card-personaje, .nav-card, .btn-back, .btn-close {
     pointer-events: auto !important;
-}
-
-img {
-    pointer-events: none; /* Evita que la imagen intercepte el toque antes que el contenedor */
+    touch-action: none;
 }
