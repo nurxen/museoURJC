@@ -91,18 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================
 
     // Delegación de eventos para los elementos de la galería
-    clickableItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+clickableItems.forEach(item => {
+    // Escuchamos el evento 'click', pero el CSS touch-action: none lo hará instantáneo
+    item.addEventListener('click', function(e) {
+        // Detenemos cualquier comportamiento extraño del navegador
+        e.preventDefault();
+        e.stopPropagation();
 
-            // Buscamos el ancestro más cercano que sea la tarjeta contenedora
-            const targetItem = e.target.closest('.item-galeria, .bento-item, .card-personaje');
-            if (targetItem) {
-                openModal(targetItem);
-            }
-        });
+        // Forzamos la lectura del elemento que tiene los datos (data-nombre, etc)
+        // Aunque pinches en el borde, 'this' siempre será el elemento de la lista
+        openModal(this); 
     });
+});
 
     // Cerrar modal al pulsar el botón de cerrar
     if (closeBtn) {

@@ -355,6 +355,17 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
+    touch-action: none;
+    pointer-events: auto !important;
+}
+
+/* IMPORTANTE: Esto evita que el texto o la etiqueta bloqueen el clic del padre */
+.item-galeria img, 
+.item-galeria .info-overlay-label, 
+.item-galeria .info-overlay-label * {
+    pointer-events: none !important; 
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .item-galeria {
