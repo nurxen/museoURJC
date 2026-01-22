@@ -165,8 +165,11 @@ main {
     cursor: pointer; text-decoration: none;
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     background: #000; transition: transform 0.3s;
-    /* Habilitar click */
     pointer-events: auto !important; 
+}
+
+.nav-card:first-child .nav-bg {
+    object-position: top; 
 }
 
 .nav-card:active { transform: scale(0.96); }
@@ -195,42 +198,111 @@ main {
 }
 
 /* =========================================
-   5. PÁGINA PERSONAJES (Fichas)
+   5. PÁGINA PERSONAJES
    ========================================= */
+
 .grid-personajes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    max-width: 1400px; margin: 0 auto;
+    /* Esto forzará que quepan unas 3 tarjetas por fila en pantallas grandes */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px; /* Más espacio entre personajes para llenar la pantalla */
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 40px;
+    /* Centramos el grid si sobran huecos */
+    justify-content: center;
 }
 
 .card-personaje {
     background: white;
-    border-radius: var(--radius);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid #eee;
+    /* Diseño Vertical */
     display: flex;
     flex-direction: column;
-    text-align: center;
+    
+    /* Sombra elegante que da profundidad */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Importante para el táctil */
     cursor: pointer;
-    transition: transform 0.2s;
+    pointer-events: auto !important;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.05);
 }
-.card-personaje:active { transform: scale(0.96); }
 
+/* Efecto al tocar */
+.card-personaje:active {
+    transform: scale(0.96);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* LA IMAGEN (Retrato Alto) */
 .card-personaje img {
-    width: 100%; height: 250px; object-fit: cover; object-position: top;
+    width: 100%;
+    /* Altura fija grande para que se vean bien las fotos verticales */
+    height: 480px; 
+    object-fit: cover;
+    /* CLAVE: Alineamos arriba para no cortar cabezas */
+    object-position: top center; 
+    
+    /* Un pequeño degradado en la base de la foto para unirla con el texto */
+    border-bottom: 5px solid var(--urjc-red);
 }
 
+/* EL TEXTO */
 .info-personaje {
-    padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 25px;
+    text-align: center;
+    background: white;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
 .info-personaje h3 {
-    color: var(--urjc-red); font-family: 'Montserrat', sans-serif; margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem; /* Nombre grande */
+    color: var(--urjc-dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    line-height: 1.1;
 }
+
+.info-personaje p {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+/* Botón estilizado */
 .btn-indicator {
-    display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px;
-    font-size: 0.8rem; margin-top: 10px; color: #555;
+    padding: 12px 30px;
+    background: #f4f4f4;
+    color: #333;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+
+.card-personaje:active .btn-indicator {
+    background: var(--urjc-red);
+    color: white;
+}
+
+/* RESPONSIVE: En móviles muy estrechos, ajustamos la altura */
+@media (max-width: 768px) {
+    .card-personaje img {
+        height: 350px;
+    }
 }
 
 
@@ -239,100 +311,69 @@ main {
    ========================================= */
 .grid-galeria {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* CAMBIO 1: En lugar de 4 fijos, rellena automáticamente según el ancho */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     grid-auto-rows: 280px;
-    gap: 20px;
-    max-width: 1400px;
+    gap: 25px; /* Un poco más de espacio entre fotos */
+    
+    /* CAMBIO 2: Ocupar casi toda la pantalla (antes estaba en 1400px) */
+    max-width: 96vw; 
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 50px;
+
+    /* CAMBIO 3: Magia para rellenar huecos si las piezas grandes dejan espacios */
+    grid-auto-flow: dense; 
 }
 
 .item-galeria {
     position: relative;
-    border-radius: 24px; /* Bordes más orgánicos */
+    border-radius: 20px;
     overflow: hidden;
     background: #000;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
+    
+    /* Importante para el click */
     pointer-events: auto !important;
     touch-action: none; 
     cursor: pointer;
-
 }
 
-/* Hacemos que algunos elementos sean más grandes que otros para romper la monotonía */
-.item-galeria:nth-child(4n+1) { grid-column: span 2; }
-.item-galeria:nth-child(7n) { grid-row: span 2; }
-
-/* BLOQUEO TOTAL DE HIJOS: El toque pasa directamente al padre .item-galeria */
-.item-galeria * {
-    pointer-events: none !important;
+/* Reglas Bento (Elementos grandes) */
+/* Hacemos que el primero de cada 4 ocupe 2 columnas */
+.item-galeria:nth-child(4n+1) { 
+    grid-column: span 2; 
+}
+/* Hacemos que el séptimo ocupe 2 filas de alto */
+.item-galeria:nth-child(7n) { 
+    grid-row: span 2; 
 }
 
+/* BLOQUEO TOTAL DE HIJOS */
+.item-galeria * { pointer-events: none !important; }
+
+/* IMÁGENES */
 .item-galeria img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.85;
-    transition: all 0.5s ease;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.85; transition: all 0.5s ease;
 }
 
-/* Al tocar (simulando hover para táctil) */
-.item-galeria:active {
-    transform: scale(0.98);
-}
+/* INTERACCIÓN TÁCTIL */
+.item-galeria:active { transform: scale(0.98); }
+.item-galeria:active img { transform: scale(1.05); opacity: 0.6; }
 
-.item-galeria:active img {
-    transform: scale(1.05);
-    opacity: 0.6;
-}
-
-/* Etiqueta flotante refinada */
+/* ETIQUETA */
 .info-overlay-label {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    color: white;
-    z-index: 2;
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    color: white; z-index: 2;
 }
-
 .info-overlay-label h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 700;
+    margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
-
-.info-overlay-label .tap-hint {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: var(--urjc-red);
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 4px;
-}
-
-/* Mejora del Modal para lectura en pantalla táctil */
-.modal-text {
-    padding: 50px;
-    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
-}
-
-.modal-text h2 {
-    font-size: 2.5rem;
-    letter-spacing: -1px;
-    line-height: 1;
-}
-
-#modal-desc {
-    font-size: 1.2rem;
-    color: #444;
-}
-
 
 /* =========================================
    7. VENTANA MODAL (Info Popup)
