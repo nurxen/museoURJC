@@ -370,6 +370,9 @@ main {
 
 }
 
+/* Hacemos que algunos elementos sean más grandes que otros para romper la monotonía */
+.item-galeria:nth-child(4n+1) { grid-column: span 2; }
+.item-galeria:nth-child(7n) { grid-row: span 2; }
 
 /* BLOQUEO TOTAL DE HIJOS: El toque pasa directamente al padre .item-galeria */
 .item-galeria * {
