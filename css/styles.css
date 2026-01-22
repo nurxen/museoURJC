@@ -317,7 +317,7 @@ main {
     gap: 25px; /* Un poco más de espacio entre fotos */
     
     /* CAMBIO 2: Ocupar casi toda la pantalla (antes estaba en 1400px) */
-    max-width: 96vw; 
+    max-width:90vw; 
     margin: 0 auto;
     padding: 20px;
     padding-bottom: 50px;
@@ -468,12 +468,12 @@ footer {
 * {
     -webkit-user-select: none;
     user-select: none;
-    -webkit-touch-callout: none !important; /* BLOQUEO DE MENÚ GOOGLE/IOS */
+    -webkit-touch-callout: none !important; 
     -webkit-tap-highlight-color: transparent;
 }
 
 /* Solo permitimos eventos en los contenedores principales */
 .item-galeria, .card-personaje, .nav-card, .btn-back, .btn-close {
     pointer-events: auto !important;
-    touch-action: none;
+    touch-action: pan-y; 
 }
