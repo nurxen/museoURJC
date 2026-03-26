@@ -21,43 +21,37 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden; 
+    
+    /* SEGURIDAD KIOSCO */
     user-select: none;  
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent; 
 }
+
+img { pointer-events: none; } /* Bloquea arrastre de imágenes */
 
 /* =========================================
    2. CABECERAS
    ========================================= */
-/* Home Header */
-.top-bar {
-    background: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    height: 12vh;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.03);
-    z-index: 10;
-}
-.logo { height: 70px; object-fit: contain; }
-
-/* Inner Pages Header */
 header.compact-header {
-    background: rgba(255, 255, 255, 0.98); 
+    background: rgba(255, 255, 255, 0.95); /* Efecto vidrio */
+    backdrop-filter: blur(10px);
     padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 4px solid var(--urjc-red);
+    border-bottom: 3px solid var(--urjc-red);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     position: sticky; 
     top: 0;
     z-index: 100;
 }
+
 .header-title h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.4rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--urjc-dark);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -70,13 +64,21 @@ header.compact-header {
     align-items: center;
     text-decoration: none;
     color: var(--urjc-dark);
-    font-weight: 600;
+    font-weight: 700;
     padding: 10px 20px;
     border-radius: 50px;
-    background: #f0f0f0;
+    background: #fff;
+    border: 2px solid #eee;
     transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
-.btn-back:active { background-color: var(--urjc-red); color: white; }
+
+.btn-back:active { 
+    background-color: var(--urjc-red); 
+    color: white; 
+    border-color: var(--urjc-red);
+    transform: scale(0.95);
+}
 .btn-back span { margin-right: 8px; font-size: 1.2rem; }
 
 
@@ -86,196 +88,221 @@ header.compact-header {
 .main-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh; /* Forzamos a que ocupe exactamente el alto de la pantalla */
     max-width: 1600px; 
     margin: 0 auto;
     background: white;
-    box-shadow: 0 0 60px rgba(0,0,0,0.05);
+    overflow: hidden; /* Evitamos scroll accidental en el home */
 }
 
-main { padding: 30px; flex: 1; }
-
-/* =========================================
-   4. HOME PAGE REDISEÑADA (¡NUEVO!)
-   ========================================= */
-
-.content-area {
+/* Reducimos el padding de main para ganar espacio */
+main { 
+    padding: 20px; 
+    flex: 1; 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 40px;
+    justify-content: space-between; /* Distribuye banner, mensaje y nav equitativamente */
 }
 
-/* Hero Section más moderna */
-.hero-section {
-    width: 100%;
-    height: 35vh; /* Más alto */
-    position: relative;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-soft);
-}
-
-.hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.hero-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
-}
-
-.hero-text {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%;
-    padding: 40px;
-    color: white;
-}
-
-.hero-text h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 900;
-    margin-bottom: 5px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.hero-text .subtitle {
-    font-size: 1.2rem;
-    font-weight: 400;
-    opacity: 0.9;
-    margin-bottom: 20px;
-}
-
-.hero-text .instruction {
-    font-size: 0.9rem;
-    background: rgba(255,255,255,0.2);
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-}
-
-/* Tarjetas de Navegación (Estilo Inmersivo) */
-.navigation-grid {
+/* =========================================
+   4. HOME PAGE REDISEÑADA
+   ========================================= */
+.home-page {
     display: flex;
-    gap: 30px;
-    width: 100%;
     justify-content: center;
-    height: 35vh; /* Ocupan buen espacio vertical */
+    align-items: center;
+    background: linear-gradient(135deg, #ffffff 0%, #f2f2f2 100%);
+    overflow: hidden; /* Sin scroll en la home */
+}
+
+.main-container-home {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    justify-content: center;
+}
+
+.hero-section { margin-bottom: 40px; }
+
+.logos-home img { height: 70px; margin-bottom: 20px; }
+
+.hero-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--urjc-red);
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 1.5rem; color: #333; font-weight: 700; margin-bottom: 20px;
+}
+
+.instruction {
+    font-family: 'Montserrat', sans-serif; color: #666; font-size: 1.1rem;
+    text-transform: uppercase; letter-spacing: 2px; margin-top: 30px;
+    position: relative; display: inline-block;
+}
+.instruction::after {
+    content: ''; display: block; width: 50%; height: 2px; 
+    background: var(--urjc-red); margin: 10px auto 0;
+}
+
+/* Tarjetas Gigantes de Navegación */
+.home-nav {
+    display: flex; gap: 30px; width: 100%; height: 50vh;
 }
 
 .nav-card {
-    position: relative;
-    flex: 1;
-    border-radius: var(--radius);
-    overflow: hidden;
-    text-decoration: none;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    flex: 1; position: relative;
+    border-radius: 20px; overflow: hidden;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    background: #000; transition: transform 0.3s;
+    pointer-events: auto !important; 
 }
 
-.nav-card:active { transform: scale(0.97); }
-
-.nav-card-bg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
+.nav-card:first-child .nav-bg {
+    object-position: top; 
 }
 
-/* Zoom suave en la imagen al pulsar */
-.nav-card:active .nav-card-bg { transform: scale(1.05); }
+.nav-card:active { transform: scale(0.96); }
 
-.nav-card-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%);
-    transition: opacity 0.3s;
+.nav-bg {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.7; transition: transform 0.5s, opacity 0.5s;
 }
 
-.nav-card-content {
-    position: absolute;
-    bottom: 0; left: 0;
-    padding: 30px;
-    width: 100%;
-    color: white;
+.nav-card:active .nav-bg { transform: scale(1.1); opacity: 0.5; }
+
+.nav-content {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 40px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    color: white; text-align: left;
 }
 
-.nav-card-content h2 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: white;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+.nav-content h2 {
+    font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 10px;
 }
 
-.nav-card-content p {
-    font-size: 1rem;
-    opacity: 0.9;
-    margin-bottom: 20px;
-    font-weight: 400;
+.nav-content span {
+    font-weight: 700; text-transform: uppercase; color: var(--urjc-red); background: white;
+    padding: 5px 15px; border-radius: 20px; font-size: 0.8rem;
 }
-
-.btn-explore {
-    display: inline-block;
-    padding: 10px 25px;
-    background-color: var(--urjc-red);
-    color: white;
-    font-weight: 700;
-    border-radius: 50px;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 10px rgba(192, 41, 39, 0.4);
-}
-
-.nav-card:active .btn-explore { background-color: white; color: var(--urjc-red); }
-
 
 /* =========================================
-   5. PÁGINA PERSONAJES (Fichas)
+   5. PÁGINA PERSONAJES
    ========================================= */
+
 .grid-personajes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
-    max-width: 1400px; margin: 0 auto;
+    /* Esto forzará que quepan unas 3 tarjetas por fila en pantallas grandes */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px; /* Más espacio entre personajes para llenar la pantalla */
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 40px;
+    /* Centramos el grid si sobran huecos */
+    justify-content: center;
 }
 
 .card-personaje {
     background: white;
-    border-radius: var(--radius);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-soft);
-    border: 1px solid #eee;
+    /* Diseño Vertical */
     display: flex;
     flex-direction: column;
-    text-align: center;
+    
+    /* Sombra elegante que da profundidad */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    
+    /* Importante para el táctil */
     cursor: pointer;
-    transition: transform 0.2s;
+    pointer-events: auto !important;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.05);
 }
-.card-personaje:active { transform: scale(0.96); }
 
+/* Efecto al tocar */
+.card-personaje:active {
+    transform: scale(0.96);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* LA IMAGEN (Retrato Alto) */
 .card-personaje img {
-    width: 100%; height: 250px; object-fit: cover; object-position: top;
+    width: 100%;
+    /* Altura fija grande para que se vean bien las fotos verticales */
+    height: 480px; 
+    object-fit: cover;
+    /* CLAVE: Alineamos arriba para no cortar cabezas */
+    object-position: top center; 
+    
+    /* Un pequeño degradado en la base de la foto para unirla con el texto */
+    border-bottom: 5px solid var(--urjc-red);
 }
 
+/* EL TEXTO */
 .info-personaje {
-    padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 25px;
+    text-align: center;
+    background: white;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
 .info-personaje h3 {
-    color: var(--urjc-red); font-family: 'Montserrat', sans-serif; margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.8rem; /* Nombre grande */
+    color: var(--urjc-dark);
+    margin-bottom: 8px;
+    font-weight: 800;
+    line-height: 1.1;
 }
+
+.info-personaje p {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+/* Botón estilizado */
 .btn-indicator {
-    display: inline-block; padding: 8px 15px; background: #eee; border-radius: 20px;
-    font-size: 0.8rem; margin-top: 10px; color: #555;
+    padding: 12px 30px;
+    background: #f4f4f4;
+    color: #333;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+
+.card-personaje:active .btn-indicator {
+    background: var(--urjc-red);
+    color: white;
+}
+
+/* RESPONSIVE: En móviles muy estrechos, ajustamos la altura */
+@media (max-width: 768px) {
+    .card-personaje img {
+        height: 350px;
+    }
 }
 
 
@@ -284,29 +311,69 @@ main { padding: 30px; flex: 1; }
    ========================================= */
 .grid-galeria {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-    max-width: 1400px; margin: 0 auto;
+    /* CAMBIO 1: En lugar de 4 fijos, rellena automáticamente según el ancho */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-auto-rows: 280px;
+    gap: 25px; /* Un poco más de espacio entre fotos */
+    
+    /* CAMBIO 2: Ocupar casi toda la pantalla (antes estaba en 1400px) */
+    max-width:90vw; 
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 50px;
+
+    /* CAMBIO 3: Magia para rellenar huecos si las piezas grandes dejan espacios */
+    grid-auto-flow: dense; 
 }
 
 .item-galeria {
-    position: relative; border-radius: var(--radius); overflow: hidden;
-    box-shadow: var(--shadow-soft); aspect-ratio: 1 / 1; cursor: pointer;
-    background: white;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Importante para el click */
+    pointer-events: auto !important;
+    touch-action: none; 
+    cursor: pointer;
 }
-.item-galeria img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-.item-galeria:active { transform: scale(0.96); }
-.item-galeria:active img { transform: scale(1.1); }
 
-.overlay {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, var(--urjc-red), transparent);
-    color: white; padding: 20px 10px 10px; text-align: center;
-    font-size: 0.9rem; font-weight: 700; opacity: 0; transform: translateY(100%);
-    transition: all 0.3s;
+/* Reglas Bento (Elementos grandes) */
+/* Hacemos que el primero de cada 4 ocupe 2 columnas */
+.item-galeria:nth-child(4n+1) { 
+    grid-column: span 2; 
 }
-.item-galeria:active .overlay { opacity: 1; transform: translateY(0); }
+/* Hacemos que el séptimo ocupe 2 filas de alto */
+.item-galeria:nth-child(7n) { 
+    grid-row: span 2; 
+}
 
+/* BLOQUEO TOTAL DE HIJOS */
+.item-galeria * { pointer-events: none !important; }
+
+/* IMÁGENES */
+.item-galeria img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.85; transition: all 0.5s ease;
+}
+
+/* INTERACCIÓN TÁCTIL */
+.item-galeria:active { transform: scale(0.98); }
+.item-galeria:active img { transform: scale(1.05); opacity: 0.6; }
+
+/* ETIQUETA */
+.info-overlay-label {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    color: white; z-index: 2;
+}
+.info-overlay-label h3 {
+    font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 700;
+    margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
 
 /* =========================================
    7. VENTANA MODAL (Info Popup)
@@ -388,6 +455,25 @@ main { padding: 30px; flex: 1; }
    8. FOOTER
    ========================================= */
 footer {
-    text-align: center; padding: 20px; font-size: 0.85rem;
-    color: #999; background-color: #fff; border-top: 1px solid #eee;
+    padding: 10px; /* Reducido de 20px */
+    font-size: 0.75rem;
+    background: white;
+    flex-shrink: 0; /* Evita que el footer desaparezca */
+    text-align: center;
+}
+
+/* =========================================
+   9. BLOQUEOS TÁCTILES GLOBALES - REFORZADOS
+   ========================================= */
+* {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none !important; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Solo permitimos eventos en los contenedores principales */
+.item-galeria, .card-personaje, .nav-card, .btn-back, .btn-close {
+    pointer-events: auto !important;
+    touch-action: pan-y; 
 }
