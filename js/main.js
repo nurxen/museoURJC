@@ -35,6 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Seleccionamos todos los elementos interactivos (Galería y Personajes)
     const clickableItems = document.querySelectorAll('.item-galeria, .bento-item, .card-personaje');
+    // =========================================
+    // AÑADIR NOMBRE A LAS TARJETAS DE LA GALERIA (BENTO)
+    // =========================================
+    document.querySelectorAll('.item-galeria').forEach(item => {
+        const nombre = item.getAttribute('data-nombre');
+
+        // Evitamos duplicados si ya existe
+        if (!item.querySelector('.info-overlay-label') && nombre) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('info-overlay-label');
+
+            overlay.innerHTML = `
+                <h3>${nombre}</h3>
+                <span style="font-size:0.75rem; opacity:0.8;">Tocar para info</span>
+            `;
+
+            item.appendChild(overlay);
+        }
+    });
 
     // =========================================
     // 3. FUNCIONES DEL MODAL

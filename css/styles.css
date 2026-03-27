@@ -325,7 +325,6 @@ main {
     /* CAMBIO 3: Magia para rellenar huecos si las piezas grandes dejan espacios */
     grid-auto-flow: dense; 
 }
-
 .item-galeria {
     position: relative;
     border-radius: 20px;
@@ -388,7 +387,7 @@ main {
 .modal-overlay.active { display: flex; opacity: 1; }
 
 .modal-content {
-    background: white; width: 95%; max-width: 900px; height: auto; max-height: 85vh;
+    background: white; width: 95%; max-width: 900px; height: auto; max-height: 80vh;
     border-radius: 20px; position: relative;
     box-shadow: 0 25px 50px rgba(0,0,0,0.5); overflow: hidden;
     display: flex; flex-direction: column;
